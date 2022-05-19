@@ -1,0 +1,470 @@
+Grammar
+
+    0 $accept: stmt $end
+
+    1 stmt: expr DONE
+    2     | expr2 DONE
+
+    3 expr: expr PLUS term
+    4     | expr MINUS term
+    5     | term
+
+    6 term: term MULTIPLY factor
+    7     | term DIVIDE factor
+    8     | factor
+
+    9 factor: ENT
+   10       | LEFT expr RIGHT
+   11       | MINUS ENT
+
+   12 expr2: expr2 PLUS term2
+   13      | expr2 MINUS term2
+   14      | term2
+
+   15 term2: term2 MULTIPLY factor2
+   16      | term2 DIVIDE factor2
+   17      | factor2
+
+   18 factor2: REAL
+   19        | LEFT expr2 RIGHT
+   20        | MINUS REAL
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+REAL (258) 18 20
+ENT (259) 9 11
+PLUS (260) 3 12
+MINUS (261) 4 11 13 20
+DIVIDE (262) 7 16
+MULTIPLY (263) 6 15
+LEFT (264) 10 19
+RIGHT (265) 10 19
+DONE (266) 1 2
+
+
+Nonterminals, with rules where they appear
+
+$accept (12)
+    on left: 0
+stmt (13)
+    on left: 1 2, on right: 0
+expr (14)
+    on left: 3 4 5, on right: 1 3 4 10
+term (15)
+    on left: 6 7 8, on right: 3 4 5 6 7
+factor (16)
+    on left: 9 10 11, on right: 6 7 8
+expr2 (17)
+    on left: 12 13 14, on right: 2 12 13 19
+term2 (18)
+    on left: 15 16 17, on right: 12 13 14 15 16
+factor2 (19)
+    on left: 18 19 20, on right: 15 16 17
+
+
+state 0
+
+    0 $accept: . stmt $end
+
+    REAL   shift, and go to state 1
+    ENT    shift, and go to state 2
+    MINUS  shift, and go to state 3
+    LEFT   shift, and go to state 4
+
+    stmt     go to state 5
+    expr     go to state 6
+    term     go to state 7
+    factor   go to state 8
+    expr2    go to state 9
+    term2    go to state 10
+    factor2  go to state 11
+
+
+state 1
+
+   18 factor2: REAL .
+
+    $default  reduce using rule 18 (factor2)
+
+
+state 2
+
+    9 factor: ENT .
+
+    $default  reduce using rule 9 (factor)
+
+
+state 3
+
+   11 factor: MINUS . ENT
+   20 factor2: MINUS . REAL
+
+    REAL  shift, and go to state 12
+    ENT   shift, and go to state 13
+
+
+state 4
+
+   10 factor: LEFT . expr RIGHT
+   19 factor2: LEFT . expr2 RIGHT
+
+    REAL   shift, and go to state 1
+    ENT    shift, and go to state 2
+    MINUS  shift, and go to state 3
+    LEFT   shift, and go to state 4
+
+    expr     go to state 14
+    term     go to state 7
+    factor   go to state 8
+    expr2    go to state 15
+    term2    go to state 10
+    factor2  go to state 11
+
+
+state 5
+
+    0 $accept: stmt . $end
+
+    $end  shift, and go to state 16
+
+
+state 6
+
+    1 stmt: expr . DONE
+    3 expr: expr . PLUS term
+    4     | expr . MINUS term
+
+    PLUS   shift, and go to state 17
+    MINUS  shift, and go to state 18
+    DONE   shift, and go to state 19
+
+
+state 7
+
+    5 expr: term .
+    6 term: term . MULTIPLY factor
+    7     | term . DIVIDE factor
+
+    DIVIDE    shift, and go to state 20
+    MULTIPLY  shift, and go to state 21
+
+    $default  reduce using rule 5 (expr)
+
+
+state 8
+
+    8 term: factor .
+
+    $default  reduce using rule 8 (term)
+
+
+state 9
+
+    2 stmt: expr2 . DONE
+   12 expr2: expr2 . PLUS term2
+   13      | expr2 . MINUS term2
+
+    PLUS   shift, and go to state 22
+    MINUS  shift, and go to state 23
+    DONE   shift, and go to state 24
+
+
+state 10
+
+   14 expr2: term2 .
+   15 term2: term2 . MULTIPLY factor2
+   16      | term2 . DIVIDE factor2
+
+    DIVIDE    shift, and go to state 25
+    MULTIPLY  shift, and go to state 26
+
+    $default  reduce using rule 14 (expr2)
+
+
+state 11
+
+   17 term2: factor2 .
+
+    $default  reduce using rule 17 (term2)
+
+
+state 12
+
+   20 factor2: MINUS REAL .
+
+    $default  reduce using rule 20 (factor2)
+
+
+state 13
+
+   11 factor: MINUS ENT .
+
+    $default  reduce using rule 11 (factor)
+
+
+state 14
+
+    3 expr: expr . PLUS term
+    4     | expr . MINUS term
+   10 factor: LEFT expr . RIGHT
+
+    PLUS   shift, and go to state 17
+    MINUS  shift, and go to state 18
+    RIGHT  shift, and go to state 27
+
+
+state 15
+
+   12 expr2: expr2 . PLUS term2
+   13      | expr2 . MINUS term2
+   19 factor2: LEFT expr2 . RIGHT
+
+    PLUS   shift, and go to state 22
+    MINUS  shift, and go to state 23
+    RIGHT  shift, and go to state 28
+
+
+state 16
+
+    0 $accept: stmt $end .
+
+    $default  accept
+
+
+state 17
+
+    3 expr: expr PLUS . term
+
+    ENT    shift, and go to state 2
+    MINUS  shift, and go to state 29
+    LEFT   shift, and go to state 30
+
+    term    go to state 31
+    factor  go to state 8
+
+
+state 18
+
+    4 expr: expr MINUS . term
+
+    ENT    shift, and go to state 2
+    MINUS  shift, and go to state 29
+    LEFT   shift, and go to state 30
+
+    term    go to state 32
+    factor  go to state 8
+
+
+state 19
+
+    1 stmt: expr DONE .
+
+    $default  reduce using rule 1 (stmt)
+
+
+state 20
+
+    7 term: term DIVIDE . factor
+
+    ENT    shift, and go to state 2
+    MINUS  shift, and go to state 29
+    LEFT   shift, and go to state 30
+
+    factor  go to state 33
+
+
+state 21
+
+    6 term: term MULTIPLY . factor
+
+    ENT    shift, and go to state 2
+    MINUS  shift, and go to state 29
+    LEFT   shift, and go to state 30
+
+    factor  go to state 34
+
+
+state 22
+
+   12 expr2: expr2 PLUS . term2
+
+    REAL   shift, and go to state 1
+    MINUS  shift, and go to state 35
+    LEFT   shift, and go to state 36
+
+    term2    go to state 37
+    factor2  go to state 11
+
+
+state 23
+
+   13 expr2: expr2 MINUS . term2
+
+    REAL   shift, and go to state 1
+    MINUS  shift, and go to state 35
+    LEFT   shift, and go to state 36
+
+    term2    go to state 38
+    factor2  go to state 11
+
+
+state 24
+
+    2 stmt: expr2 DONE .
+
+    $default  reduce using rule 2 (stmt)
+
+
+state 25
+
+   16 term2: term2 DIVIDE . factor2
+
+    REAL   shift, and go to state 1
+    MINUS  shift, and go to state 35
+    LEFT   shift, and go to state 36
+
+    factor2  go to state 39
+
+
+state 26
+
+   15 term2: term2 MULTIPLY . factor2
+
+    REAL   shift, and go to state 1
+    MINUS  shift, and go to state 35
+    LEFT   shift, and go to state 36
+
+    factor2  go to state 40
+
+
+state 27
+
+   10 factor: LEFT expr RIGHT .
+
+    $default  reduce using rule 10 (factor)
+
+
+state 28
+
+   19 factor2: LEFT expr2 RIGHT .
+
+    $default  reduce using rule 19 (factor2)
+
+
+state 29
+
+   11 factor: MINUS . ENT
+
+    ENT  shift, and go to state 13
+
+
+state 30
+
+   10 factor: LEFT . expr RIGHT
+
+    ENT    shift, and go to state 2
+    MINUS  shift, and go to state 29
+    LEFT   shift, and go to state 30
+
+    expr    go to state 14
+    term    go to state 7
+    factor  go to state 8
+
+
+state 31
+
+    3 expr: expr PLUS term .
+    6 term: term . MULTIPLY factor
+    7     | term . DIVIDE factor
+
+    DIVIDE    shift, and go to state 20
+    MULTIPLY  shift, and go to state 21
+
+    $default  reduce using rule 3 (expr)
+
+
+state 32
+
+    4 expr: expr MINUS term .
+    6 term: term . MULTIPLY factor
+    7     | term . DIVIDE factor
+
+    DIVIDE    shift, and go to state 20
+    MULTIPLY  shift, and go to state 21
+
+    $default  reduce using rule 4 (expr)
+
+
+state 33
+
+    7 term: term DIVIDE factor .
+
+    $default  reduce using rule 7 (term)
+
+
+state 34
+
+    6 term: term MULTIPLY factor .
+
+    $default  reduce using rule 6 (term)
+
+
+state 35
+
+   20 factor2: MINUS . REAL
+
+    REAL  shift, and go to state 12
+
+
+state 36
+
+   19 factor2: LEFT . expr2 RIGHT
+
+    REAL   shift, and go to state 1
+    MINUS  shift, and go to state 35
+    LEFT   shift, and go to state 36
+
+    expr2    go to state 15
+    term2    go to state 10
+    factor2  go to state 11
+
+
+state 37
+
+   12 expr2: expr2 PLUS term2 .
+   15 term2: term2 . MULTIPLY factor2
+   16      | term2 . DIVIDE factor2
+
+    DIVIDE    shift, and go to state 25
+    MULTIPLY  shift, and go to state 26
+
+    $default  reduce using rule 12 (expr2)
+
+
+state 38
+
+   13 expr2: expr2 MINUS term2 .
+   15 term2: term2 . MULTIPLY factor2
+   16      | term2 . DIVIDE factor2
+
+    DIVIDE    shift, and go to state 25
+    MULTIPLY  shift, and go to state 26
+
+    $default  reduce using rule 13 (expr2)
+
+
+state 39
+
+   16 term2: term2 DIVIDE factor2 .
+
+    $default  reduce using rule 16 (term2)
+
+
+state 40
+
+   15 term2: term2 MULTIPLY factor2 .
+
+    $default  reduce using rule 15 (term2)
