@@ -46,7 +46,20 @@
      MULTIPLY = 263,
      LEFT = 264,
      RIGHT = 265,
-     DONE = 266
+     DONE = 266,
+     LESSEROREQUALSTHAN = 267,
+     GREATEROREQUALSTHAN = 268,
+     DIFFERENTTHAN = 269,
+     LESSERTHAN = 270,
+     GREATERTHAN = 271,
+     EQUALS = 272,
+     THEN = 273,
+     IF = 274,
+     ELSE = 275,
+     SEMI = 276,
+     STR = 277,
+     TRUE = 278,
+     FALSE = 279
    };
 #endif
 
@@ -61,15 +74,17 @@ typedef union YYSTYPE
 
   int intVal;
   float floatVal;
+  char* stringVal;
   struct atributos{
     float real;
     int entero;
+    char* string;
   }st;
 
 
 
 /* Line 1685 of yacc.c  */
-#line 73 "calculadora_simple.tab.h"
+#line 88 "calculadora_simple.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
