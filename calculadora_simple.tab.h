@@ -70,7 +70,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1685 of yacc.c  */
-#line 16 "calculadora_simple.y"
+#line 18 "calculadora_simple.y"
 
   int intVal;
   float floatVal;

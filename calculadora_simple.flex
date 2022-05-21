@@ -33,7 +33,6 @@
 [0-9]+          {yylval.intVal = atoi(yytext); return ENT;}
 [0-9]+"."[0-9]+ {yylval.floatVal = atof(yytext); return REAL;}
 ".+"       {yylval.stringVal = strdup(yytext);return STR;}
-[ \t]           {}
 "\n"            {return DONE;}
 .               {printf("Error: invlaid lexeme '%s'.\n", yytext); return 0;}
 

@@ -5,6 +5,8 @@
 
 int yywrap( );
 void yyerror(const char* str);
+extern FILE *yyin;
+extern FILE *yyout;
 
 /* the result variable */
 float result2 = 0;
@@ -59,15 +61,18 @@ char* result3= "";
 /* give us more detailed errors */
 %error-verbose
 
+%start command
 %%
+command: stmt DONE command
+    | stmt
 
 /* one expression only followed by a new line */
-stmt: expr DONE {result = $1.entero; return 0;}
-    | expr2 DONE {result2 = $1.real; return 0;}
-    | bool DONE {result3 = $1.string; return 0;}
+stmt: expr {result = $1.entero; }
+    | expr2 {result2 = $1.real; }
+    | bool {result3 = $1.string; }
 
 /* an expression uses + or - or neither */
-expr: expr PLUS term {$$.entero = $1.entero + $3.entero;}
+expr: expr PLUS term {$$.entero = $1.entero + $3.entero; printf( "ENTERO %ld\n", $$.entero);}
     | expr MINUS term {$$.entero = $1.entero - $3.entero;}
     | term {$$.entero = $1.entero;}
 
@@ -81,7 +86,7 @@ factor: ENT {$$.entero = $1;}
       | MINUS ENT {$$.entero = -$2; }
 
 /* an expression uses + or - or neither */
-expr2: expr2 PLUS term2 {$$.real = $1.real + $3.real;}
+expr2: expr2 PLUS term2 {$$.real = $1.real + $3.real;printf( "REAL %lf\n", $$.real);}
     | expr2 MINUS term2 {$$.real = $1.real - $3.real;}
     | term2 {$$.real = $1.real;}
 
@@ -107,7 +112,7 @@ boolean_var: TRUE {$$.string="True\n";}
     	| FALSE {$$.string="False\n"; }
 ;
 
-bool:expr boolean_op expr2 {$$.string="Operacion booleana variables\n";}
+bool:expr boolean_op expr2 {printf("Operacion booleana variables\n");}
       | boolean_var boolean_op boolean_var {$$.string="Operacion booleana true/false \n";}
 
 ;
@@ -137,10 +142,25 @@ void yyerror(const char* str) {
   fprintf(stderr, "Compiler error: '%s'.\n", str);
 }
 
-int main( ) {
+/* int main( ) {
   yyparse( );
   printf("ENTERO %ld\n", result);
   printf("REAL %lf\n", result2);
   printf("STRING %s\n", result3);
   return 0;
+} */
+int main(int argc, char *argv[]) {
+
+	if (argc == 1) {
+		yyparse();
+	}
+	if (argc == 2) {
+		yyout = fopen( "./prueba.txt", "wt" );
+
+		yyin = fopen(argv[1], "rt");
+
+		yyparse();
+	}
+
+	return 0;
 }

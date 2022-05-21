@@ -9,107 +9,112 @@ Terminals unused in grammar
 
 Grammar
 
-    0 $accept: stmt $end
+    0 $accept: command $end
 
-    1 stmt: expr DONE
-    2     | expr2 DONE
-    3     | bool DONE
+    1 command: stmt DONE command
+    2        | stmt
 
-    4 expr: expr PLUS term
-    5     | expr MINUS term
-    6     | term
+    3 stmt: expr
+    4     | expr2
+    5     | bool
 
-    7 term: term MULTIPLY factor
-    8     | term DIVIDE factor
-    9     | factor
+    6 expr: expr PLUS term
+    7     | expr MINUS term
+    8     | term
 
-   10 factor: ENT
-   11       | LEFT expr RIGHT
-   12       | MINUS ENT
+    9 term: term MULTIPLY factor
+   10     | term DIVIDE factor
+   11     | factor
 
-   13 expr2: expr2 PLUS term2
-   14      | expr2 MINUS term2
-   15      | term2
+   12 factor: ENT
+   13       | LEFT expr RIGHT
+   14       | MINUS ENT
 
-   16 term2: term2 MULTIPLY factor2
-   17      | term2 DIVIDE factor2
-   18      | factor2
+   15 expr2: expr2 PLUS term2
+   16      | expr2 MINUS term2
+   17      | term2
 
-   19 factor2: REAL
-   20        | LEFT expr2 RIGHT
-   21        | MINUS REAL
+   18 term2: term2 MULTIPLY factor2
+   19      | term2 DIVIDE factor2
+   20      | factor2
 
-   22 boolean_op: EQUALS
-   23           | GREATERTHAN
-   24           | LESSERTHAN
-   25           | GREATEROREQUALSTHAN
-   26           | LESSEROREQUALSTHAN
-   27           | DIFFERENTTHAN
+   21 factor2: REAL
+   22        | LEFT expr2 RIGHT
+   23        | MINUS REAL
 
-   28 boolean_var: TRUE
-   29            | FALSE
+   24 boolean_op: EQUALS
+   25           | GREATERTHAN
+   26           | LESSERTHAN
+   27           | GREATEROREQUALSTHAN
+   28           | LESSEROREQUALSTHAN
+   29           | DIFFERENTTHAN
 
-   30 bool: expr boolean_op expr2
-   31     | boolean_var boolean_op boolean_var
+   30 boolean_var: TRUE
+   31            | FALSE
+
+   32 bool: expr boolean_op expr2
+   33     | boolean_var boolean_op boolean_var
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-REAL (258) 19 21
-ENT (259) 10 12
-PLUS (260) 4 13
-MINUS (261) 5 12 14 21
-DIVIDE (262) 8 17
-MULTIPLY (263) 7 16
-LEFT (264) 11 20
-RIGHT (265) 11 20
-DONE (266) 1 2 3
-LESSEROREQUALSTHAN (267) 26
-GREATEROREQUALSTHAN (268) 25
-DIFFERENTTHAN (269) 27
-LESSERTHAN (270) 24
-GREATERTHAN (271) 23
-EQUALS (272) 22
+REAL (258) 21 23
+ENT (259) 12 14
+PLUS (260) 6 15
+MINUS (261) 7 14 16 23
+DIVIDE (262) 10 19
+MULTIPLY (263) 9 18
+LEFT (264) 13 22
+RIGHT (265) 13 22
+DONE (266) 1
+LESSEROREQUALSTHAN (267) 28
+GREATEROREQUALSTHAN (268) 27
+DIFFERENTTHAN (269) 29
+LESSERTHAN (270) 26
+GREATERTHAN (271) 25
+EQUALS (272) 24
 THEN (273)
 IF (274)
 ELSE (275)
 SEMI (276)
 STR (277)
-TRUE (278) 28
-FALSE (279) 29
+TRUE (278) 30
+FALSE (279) 31
 
 
 Nonterminals, with rules where they appear
 
 $accept (25)
     on left: 0
-stmt (26)
-    on left: 1 2 3, on right: 0
-expr (27)
-    on left: 4 5 6, on right: 1 4 5 11 30
-term (28)
-    on left: 7 8 9, on right: 4 5 6 7 8
-factor (29)
-    on left: 10 11 12, on right: 7 8 9
-expr2 (30)
-    on left: 13 14 15, on right: 2 13 14 20 30
-term2 (31)
-    on left: 16 17 18, on right: 13 14 15 16 17
-factor2 (32)
-    on left: 19 20 21, on right: 16 17 18
-boolean_op (33)
-    on left: 22 23 24 25 26 27, on right: 30 31
-boolean_var (34)
-    on left: 28 29, on right: 31
-bool (35)
-    on left: 30 31, on right: 3
+command (26)
+    on left: 1 2, on right: 0 1
+stmt (27)
+    on left: 3 4 5, on right: 1 2
+expr (28)
+    on left: 6 7 8, on right: 3 6 7 13 32
+term (29)
+    on left: 9 10 11, on right: 6 7 8 9 10
+factor (30)
+    on left: 12 13 14, on right: 9 10 11
+expr2 (31)
+    on left: 15 16 17, on right: 4 15 16 22 32
+term2 (32)
+    on left: 18 19 20, on right: 15 16 17 18 19
+factor2 (33)
+    on left: 21 22 23, on right: 18 19 20
+boolean_op (34)
+    on left: 24 25 26 27 28 29, on right: 32 33
+boolean_var (35)
+    on left: 30 31, on right: 33
+bool (36)
+    on left: 32 33, on right: 5
 
 
 state 0
 
-    0 $accept: . stmt $end
+    0 $accept: . command $end
 
     REAL   shift, and go to state 1
     ENT    shift, and go to state 2
@@ -118,301 +123,330 @@ state 0
     TRUE   shift, and go to state 5
     FALSE  shift, and go to state 6
 
-    stmt         go to state 7
-    expr         go to state 8
-    term         go to state 9
-    factor       go to state 10
-    expr2        go to state 11
-    term2        go to state 12
-    factor2      go to state 13
-    boolean_var  go to state 14
-    bool         go to state 15
+    command      go to state 7
+    stmt         go to state 8
+    expr         go to state 9
+    term         go to state 10
+    factor       go to state 11
+    expr2        go to state 12
+    term2        go to state 13
+    factor2      go to state 14
+    boolean_var  go to state 15
+    bool         go to state 16
 
 
 state 1
 
-   19 factor2: REAL .
+   21 factor2: REAL .
 
-    $default  reduce using rule 19 (factor2)
+    $default  reduce using rule 21 (factor2)
 
 
 state 2
 
-   10 factor: ENT .
+   12 factor: ENT .
 
-    $default  reduce using rule 10 (factor)
+    $default  reduce using rule 12 (factor)
 
 
 state 3
 
-   12 factor: MINUS . ENT
-   21 factor2: MINUS . REAL
+   14 factor: MINUS . ENT
+   23 factor2: MINUS . REAL
 
-    REAL  shift, and go to state 16
-    ENT   shift, and go to state 17
+    REAL  shift, and go to state 17
+    ENT   shift, and go to state 18
 
 
 state 4
 
-   11 factor: LEFT . expr RIGHT
-   20 factor2: LEFT . expr2 RIGHT
+   13 factor: LEFT . expr RIGHT
+   22 factor2: LEFT . expr2 RIGHT
 
     REAL   shift, and go to state 1
     ENT    shift, and go to state 2
     MINUS  shift, and go to state 3
     LEFT   shift, and go to state 4
 
-    expr     go to state 18
-    term     go to state 9
-    factor   go to state 10
-    expr2    go to state 19
-    term2    go to state 12
-    factor2  go to state 13
+    expr     go to state 19
+    term     go to state 10
+    factor   go to state 11
+    expr2    go to state 20
+    term2    go to state 13
+    factor2  go to state 14
 
 
 state 5
 
-   28 boolean_var: TRUE .
+   30 boolean_var: TRUE .
 
-    $default  reduce using rule 28 (boolean_var)
+    $default  reduce using rule 30 (boolean_var)
 
 
 state 6
 
-   29 boolean_var: FALSE .
+   31 boolean_var: FALSE .
 
-    $default  reduce using rule 29 (boolean_var)
+    $default  reduce using rule 31 (boolean_var)
 
 
 state 7
 
-    0 $accept: stmt . $end
+    0 $accept: command . $end
 
-    $end  shift, and go to state 20
+    $end  shift, and go to state 21
 
 
 state 8
 
-    1 stmt: expr . DONE
-    4 expr: expr . PLUS term
-    5     | expr . MINUS term
-   30 bool: expr . boolean_op expr2
+    1 command: stmt . DONE command
+    2        | stmt .
 
-    PLUS                 shift, and go to state 21
-    MINUS                shift, and go to state 22
-    DONE                 shift, and go to state 23
-    LESSEROREQUALSTHAN   shift, and go to state 24
-    GREATEROREQUALSTHAN  shift, and go to state 25
-    DIFFERENTTHAN        shift, and go to state 26
-    LESSERTHAN           shift, and go to state 27
-    GREATERTHAN          shift, and go to state 28
-    EQUALS               shift, and go to state 29
+    DONE  shift, and go to state 22
 
-    boolean_op  go to state 30
+    $default  reduce using rule 2 (command)
 
 
 state 9
 
-    6 expr: term .
-    7 term: term . MULTIPLY factor
-    8     | term . DIVIDE factor
+    3 stmt: expr .
+    6 expr: expr . PLUS term
+    7     | expr . MINUS term
+   32 bool: expr . boolean_op expr2
 
-    DIVIDE    shift, and go to state 31
-    MULTIPLY  shift, and go to state 32
+    PLUS                 shift, and go to state 23
+    MINUS                shift, and go to state 24
+    LESSEROREQUALSTHAN   shift, and go to state 25
+    GREATEROREQUALSTHAN  shift, and go to state 26
+    DIFFERENTTHAN        shift, and go to state 27
+    LESSERTHAN           shift, and go to state 28
+    GREATERTHAN          shift, and go to state 29
+    EQUALS               shift, and go to state 30
 
-    $default  reduce using rule 6 (expr)
+    $default  reduce using rule 3 (stmt)
+
+    boolean_op  go to state 31
 
 
 state 10
 
-    9 term: factor .
+    8 expr: term .
+    9 term: term . MULTIPLY factor
+   10     | term . DIVIDE factor
 
-    $default  reduce using rule 9 (term)
+    DIVIDE    shift, and go to state 32
+    MULTIPLY  shift, and go to state 33
+
+    $default  reduce using rule 8 (expr)
 
 
 state 11
 
-    2 stmt: expr2 . DONE
-   13 expr2: expr2 . PLUS term2
-   14      | expr2 . MINUS term2
+   11 term: factor .
 
-    PLUS   shift, and go to state 33
-    MINUS  shift, and go to state 34
-    DONE   shift, and go to state 35
+    $default  reduce using rule 11 (term)
 
 
 state 12
 
-   15 expr2: term2 .
-   16 term2: term2 . MULTIPLY factor2
-   17      | term2 . DIVIDE factor2
+    4 stmt: expr2 .
+   15 expr2: expr2 . PLUS term2
+   16      | expr2 . MINUS term2
 
-    DIVIDE    shift, and go to state 36
-    MULTIPLY  shift, and go to state 37
+    PLUS   shift, and go to state 34
+    MINUS  shift, and go to state 35
 
-    $default  reduce using rule 15 (expr2)
+    $default  reduce using rule 4 (stmt)
 
 
 state 13
 
-   18 term2: factor2 .
+   17 expr2: term2 .
+   18 term2: term2 . MULTIPLY factor2
+   19      | term2 . DIVIDE factor2
 
-    $default  reduce using rule 18 (term2)
+    DIVIDE    shift, and go to state 36
+    MULTIPLY  shift, and go to state 37
+
+    $default  reduce using rule 17 (expr2)
 
 
 state 14
 
-   31 bool: boolean_var . boolean_op boolean_var
+   20 term2: factor2 .
 
-    LESSEROREQUALSTHAN   shift, and go to state 24
-    GREATEROREQUALSTHAN  shift, and go to state 25
-    DIFFERENTTHAN        shift, and go to state 26
-    LESSERTHAN           shift, and go to state 27
-    GREATERTHAN          shift, and go to state 28
-    EQUALS               shift, and go to state 29
-
-    boolean_op  go to state 38
+    $default  reduce using rule 20 (term2)
 
 
 state 15
 
-    3 stmt: bool . DONE
+   33 bool: boolean_var . boolean_op boolean_var
 
-    DONE  shift, and go to state 39
+    LESSEROREQUALSTHAN   shift, and go to state 25
+    GREATEROREQUALSTHAN  shift, and go to state 26
+    DIFFERENTTHAN        shift, and go to state 27
+    LESSERTHAN           shift, and go to state 28
+    GREATERTHAN          shift, and go to state 29
+    EQUALS               shift, and go to state 30
+
+    boolean_op  go to state 38
 
 
 state 16
 
-   21 factor2: MINUS REAL .
+    5 stmt: bool .
 
-    $default  reduce using rule 21 (factor2)
+    $default  reduce using rule 5 (stmt)
 
 
 state 17
 
-   12 factor: MINUS ENT .
+   23 factor2: MINUS REAL .
 
-    $default  reduce using rule 12 (factor)
+    $default  reduce using rule 23 (factor2)
 
 
 state 18
 
-    4 expr: expr . PLUS term
-    5     | expr . MINUS term
-   11 factor: LEFT expr . RIGHT
+   14 factor: MINUS ENT .
 
-    PLUS   shift, and go to state 21
-    MINUS  shift, and go to state 22
-    RIGHT  shift, and go to state 40
+    $default  reduce using rule 14 (factor)
 
 
 state 19
 
-   13 expr2: expr2 . PLUS term2
-   14      | expr2 . MINUS term2
-   20 factor2: LEFT expr2 . RIGHT
+    6 expr: expr . PLUS term
+    7     | expr . MINUS term
+   13 factor: LEFT expr . RIGHT
 
-    PLUS   shift, and go to state 33
-    MINUS  shift, and go to state 34
-    RIGHT  shift, and go to state 41
+    PLUS   shift, and go to state 23
+    MINUS  shift, and go to state 24
+    RIGHT  shift, and go to state 39
 
 
 state 20
 
-    0 $accept: stmt $end .
+   15 expr2: expr2 . PLUS term2
+   16      | expr2 . MINUS term2
+   22 factor2: LEFT expr2 . RIGHT
 
-    $default  accept
+    PLUS   shift, and go to state 34
+    MINUS  shift, and go to state 35
+    RIGHT  shift, and go to state 40
 
 
 state 21
 
-    4 expr: expr PLUS . term
+    0 $accept: command $end .
+
+    $default  accept
+
+
+state 22
+
+    1 command: stmt DONE . command
+
+    REAL   shift, and go to state 1
+    ENT    shift, and go to state 2
+    MINUS  shift, and go to state 3
+    LEFT   shift, and go to state 4
+    TRUE   shift, and go to state 5
+    FALSE  shift, and go to state 6
+
+    command      go to state 41
+    stmt         go to state 8
+    expr         go to state 9
+    term         go to state 10
+    factor       go to state 11
+    expr2        go to state 12
+    term2        go to state 13
+    factor2      go to state 14
+    boolean_var  go to state 15
+    bool         go to state 16
+
+
+state 23
+
+    6 expr: expr PLUS . term
 
     ENT    shift, and go to state 2
     MINUS  shift, and go to state 42
     LEFT   shift, and go to state 43
 
     term    go to state 44
-    factor  go to state 10
+    factor  go to state 11
 
 
-state 22
+state 24
 
-    5 expr: expr MINUS . term
+    7 expr: expr MINUS . term
 
     ENT    shift, and go to state 2
     MINUS  shift, and go to state 42
     LEFT   shift, and go to state 43
 
     term    go to state 45
-    factor  go to state 10
-
-
-state 23
-
-    1 stmt: expr DONE .
-
-    $default  reduce using rule 1 (stmt)
-
-
-state 24
-
-   26 boolean_op: LESSEROREQUALSTHAN .
-
-    $default  reduce using rule 26 (boolean_op)
+    factor  go to state 11
 
 
 state 25
 
-   25 boolean_op: GREATEROREQUALSTHAN .
+   28 boolean_op: LESSEROREQUALSTHAN .
 
-    $default  reduce using rule 25 (boolean_op)
+    $default  reduce using rule 28 (boolean_op)
 
 
 state 26
 
-   27 boolean_op: DIFFERENTTHAN .
+   27 boolean_op: GREATEROREQUALSTHAN .
 
     $default  reduce using rule 27 (boolean_op)
 
 
 state 27
 
-   24 boolean_op: LESSERTHAN .
+   29 boolean_op: DIFFERENTTHAN .
 
-    $default  reduce using rule 24 (boolean_op)
+    $default  reduce using rule 29 (boolean_op)
 
 
 state 28
 
-   23 boolean_op: GREATERTHAN .
+   26 boolean_op: LESSERTHAN .
 
-    $default  reduce using rule 23 (boolean_op)
+    $default  reduce using rule 26 (boolean_op)
 
 
 state 29
 
-   22 boolean_op: EQUALS .
+   25 boolean_op: GREATERTHAN .
 
-    $default  reduce using rule 22 (boolean_op)
+    $default  reduce using rule 25 (boolean_op)
 
 
 state 30
 
-   30 bool: expr boolean_op . expr2
+   24 boolean_op: EQUALS .
+
+    $default  reduce using rule 24 (boolean_op)
+
+
+state 31
+
+   32 bool: expr boolean_op . expr2
 
     REAL   shift, and go to state 1
     MINUS  shift, and go to state 46
     LEFT   shift, and go to state 47
 
     expr2    go to state 48
-    term2    go to state 12
-    factor2  go to state 13
+    term2    go to state 13
+    factor2  go to state 14
 
 
-state 31
+state 32
 
-    8 term: term DIVIDE . factor
+   10 term: term DIVIDE . factor
 
     ENT    shift, and go to state 2
     MINUS  shift, and go to state 42
@@ -421,9 +455,9 @@ state 31
     factor  go to state 49
 
 
-state 32
+state 33
 
-    7 term: term MULTIPLY . factor
+    9 term: term MULTIPLY . factor
 
     ENT    shift, and go to state 2
     MINUS  shift, and go to state 42
@@ -432,40 +466,33 @@ state 32
     factor  go to state 50
 
 
-state 33
+state 34
 
-   13 expr2: expr2 PLUS . term2
+   15 expr2: expr2 PLUS . term2
 
     REAL   shift, and go to state 1
     MINUS  shift, and go to state 46
     LEFT   shift, and go to state 47
 
     term2    go to state 51
-    factor2  go to state 13
+    factor2  go to state 14
 
 
-state 34
+state 35
 
-   14 expr2: expr2 MINUS . term2
+   16 expr2: expr2 MINUS . term2
 
     REAL   shift, and go to state 1
     MINUS  shift, and go to state 46
     LEFT   shift, and go to state 47
 
     term2    go to state 52
-    factor2  go to state 13
-
-
-state 35
-
-    2 stmt: expr2 DONE .
-
-    $default  reduce using rule 2 (stmt)
+    factor2  go to state 14
 
 
 state 36
 
-   17 term2: term2 DIVIDE . factor2
+   19 term2: term2 DIVIDE . factor2
 
     REAL   shift, and go to state 1
     MINUS  shift, and go to state 46
@@ -476,7 +503,7 @@ state 36
 
 state 37
 
-   16 term2: term2 MULTIPLY . factor2
+   18 term2: term2 MULTIPLY . factor2
 
     REAL   shift, and go to state 1
     MINUS  shift, and go to state 46
@@ -487,7 +514,7 @@ state 37
 
 state 38
 
-   31 bool: boolean_var boolean_op . boolean_var
+   33 bool: boolean_var boolean_op . boolean_var
 
     TRUE   shift, and go to state 5
     FALSE  shift, and go to state 6
@@ -497,155 +524,155 @@ state 38
 
 state 39
 
-    3 stmt: bool DONE .
+   13 factor: LEFT expr RIGHT .
 
-    $default  reduce using rule 3 (stmt)
+    $default  reduce using rule 13 (factor)
 
 
 state 40
 
-   11 factor: LEFT expr RIGHT .
+   22 factor2: LEFT expr2 RIGHT .
 
-    $default  reduce using rule 11 (factor)
+    $default  reduce using rule 22 (factor2)
 
 
 state 41
 
-   20 factor2: LEFT expr2 RIGHT .
+    1 command: stmt DONE command .
 
-    $default  reduce using rule 20 (factor2)
+    $default  reduce using rule 1 (command)
 
 
 state 42
 
-   12 factor: MINUS . ENT
+   14 factor: MINUS . ENT
 
-    ENT  shift, and go to state 17
+    ENT  shift, and go to state 18
 
 
 state 43
 
-   11 factor: LEFT . expr RIGHT
+   13 factor: LEFT . expr RIGHT
 
     ENT    shift, and go to state 2
     MINUS  shift, and go to state 42
     LEFT   shift, and go to state 43
 
-    expr    go to state 18
-    term    go to state 9
-    factor  go to state 10
+    expr    go to state 19
+    term    go to state 10
+    factor  go to state 11
 
 
 state 44
 
-    4 expr: expr PLUS term .
-    7 term: term . MULTIPLY factor
-    8     | term . DIVIDE factor
+    6 expr: expr PLUS term .
+    9 term: term . MULTIPLY factor
+   10     | term . DIVIDE factor
 
-    DIVIDE    shift, and go to state 31
-    MULTIPLY  shift, and go to state 32
+    DIVIDE    shift, and go to state 32
+    MULTIPLY  shift, and go to state 33
 
-    $default  reduce using rule 4 (expr)
+    $default  reduce using rule 6 (expr)
 
 
 state 45
 
-    5 expr: expr MINUS term .
-    7 term: term . MULTIPLY factor
-    8     | term . DIVIDE factor
+    7 expr: expr MINUS term .
+    9 term: term . MULTIPLY factor
+   10     | term . DIVIDE factor
 
-    DIVIDE    shift, and go to state 31
-    MULTIPLY  shift, and go to state 32
+    DIVIDE    shift, and go to state 32
+    MULTIPLY  shift, and go to state 33
 
-    $default  reduce using rule 5 (expr)
+    $default  reduce using rule 7 (expr)
 
 
 state 46
 
-   21 factor2: MINUS . REAL
+   23 factor2: MINUS . REAL
 
-    REAL  shift, and go to state 16
+    REAL  shift, and go to state 17
 
 
 state 47
 
-   20 factor2: LEFT . expr2 RIGHT
+   22 factor2: LEFT . expr2 RIGHT
 
     REAL   shift, and go to state 1
     MINUS  shift, and go to state 46
     LEFT   shift, and go to state 47
 
-    expr2    go to state 19
-    term2    go to state 12
-    factor2  go to state 13
+    expr2    go to state 20
+    term2    go to state 13
+    factor2  go to state 14
 
 
 state 48
 
-   13 expr2: expr2 . PLUS term2
-   14      | expr2 . MINUS term2
-   30 bool: expr boolean_op expr2 .
+   15 expr2: expr2 . PLUS term2
+   16      | expr2 . MINUS term2
+   32 bool: expr boolean_op expr2 .
 
-    PLUS   shift, and go to state 33
-    MINUS  shift, and go to state 34
+    PLUS   shift, and go to state 34
+    MINUS  shift, and go to state 35
 
-    $default  reduce using rule 30 (bool)
+    $default  reduce using rule 32 (bool)
 
 
 state 49
 
-    8 term: term DIVIDE factor .
+   10 term: term DIVIDE factor .
 
-    $default  reduce using rule 8 (term)
+    $default  reduce using rule 10 (term)
 
 
 state 50
 
-    7 term: term MULTIPLY factor .
+    9 term: term MULTIPLY factor .
 
-    $default  reduce using rule 7 (term)
+    $default  reduce using rule 9 (term)
 
 
 state 51
 
-   13 expr2: expr2 PLUS term2 .
-   16 term2: term2 . MULTIPLY factor2
-   17      | term2 . DIVIDE factor2
+   15 expr2: expr2 PLUS term2 .
+   18 term2: term2 . MULTIPLY factor2
+   19      | term2 . DIVIDE factor2
 
     DIVIDE    shift, and go to state 36
     MULTIPLY  shift, and go to state 37
 
-    $default  reduce using rule 13 (expr2)
+    $default  reduce using rule 15 (expr2)
 
 
 state 52
 
-   14 expr2: expr2 MINUS term2 .
-   16 term2: term2 . MULTIPLY factor2
-   17      | term2 . DIVIDE factor2
+   16 expr2: expr2 MINUS term2 .
+   18 term2: term2 . MULTIPLY factor2
+   19      | term2 . DIVIDE factor2
 
     DIVIDE    shift, and go to state 36
     MULTIPLY  shift, and go to state 37
 
-    $default  reduce using rule 14 (expr2)
+    $default  reduce using rule 16 (expr2)
 
 
 state 53
 
-   17 term2: term2 DIVIDE factor2 .
+   19 term2: term2 DIVIDE factor2 .
 
-    $default  reduce using rule 17 (term2)
+    $default  reduce using rule 19 (term2)
 
 
 state 54
 
-   16 term2: term2 MULTIPLY factor2 .
+   18 term2: term2 MULTIPLY factor2 .
 
-    $default  reduce using rule 16 (term2)
+    $default  reduce using rule 18 (term2)
 
 
 state 55
 
-   31 bool: boolean_var boolean_op boolean_var .
+   33 bool: boolean_var boolean_op boolean_var .
 
-    $default  reduce using rule 31 (bool)
+    $default  reduce using rule 33 (bool)
