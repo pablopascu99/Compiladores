@@ -1,3 +1,2 @@
-2+2
-2.2+2.2
-2+2=2.2+2.2
+procedure Mainis
+end Main

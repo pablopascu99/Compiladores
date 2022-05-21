@@ -38,28 +38,32 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     REAL = 258,
-     ENT = 259,
-     PLUS = 260,
-     MINUS = 261,
-     DIVIDE = 262,
-     MULTIPLY = 263,
-     LEFT = 264,
-     RIGHT = 265,
-     DONE = 266,
-     LESSEROREQUALSTHAN = 267,
-     GREATEROREQUALSTHAN = 268,
-     DIFFERENTTHAN = 269,
-     LESSERTHAN = 270,
-     GREATERTHAN = 271,
-     EQUALS = 272,
-     THEN = 273,
-     IF = 274,
-     ELSE = 275,
-     SEMI = 276,
-     STR = 277,
-     TRUE = 278,
-     FALSE = 279
+     PROCEDURE = 258,
+     IS = 259,
+     END = 260,
+     REAL = 261,
+     ENT = 262,
+     ID = 263,
+     PLUS = 264,
+     MINUS = 265,
+     DIVIDE = 266,
+     MULTIPLY = 267,
+     LEFT = 268,
+     RIGHT = 269,
+     SALTO = 270,
+     LESSEROREQUALSTHAN = 271,
+     GREATEROREQUALSTHAN = 272,
+     DIFFERENTTHAN = 273,
+     LESSERTHAN = 274,
+     GREATERTHAN = 275,
+     EQUALS = 276,
+     THEN = 277,
+     IF = 278,
+     ELSE = 279,
+     SEMI = 280,
+     STR = 281,
+     TRUE = 282,
+     FALSE = 283
    };
 #endif
 
@@ -84,7 +88,7 @@ typedef union YYSTYPE
 
 
 /* Line 1685 of yacc.c  */
-#line 88 "calculadora_simple.tab.h"
+#line 92 "calculadora_simple.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

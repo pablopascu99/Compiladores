@@ -4,10 +4,15 @@
 #include <stdlib.h>
 #include <math.h>
 #include "calculadora_simple.tab.h"
+int numLinea = 1;
 
 %}
 
 %option noyywrap
+%option yylineno
+
+digito [0-9]
+letra [a-zA-Z]
 
 %%
 
@@ -26,15 +31,20 @@
 "="				{return EQUALS;}
 ";"				{return SEMI;}
 
-"true"			{return TRUE;}
-"false"			{return FALSE;}
+"true"			                                        {return TRUE;}
+"false"			                                        {return FALSE;}
 
-"if"            {return IF;}
-[0-9]+          {yylval.intVal = atoi(yytext); return ENT;}
-[0-9]+"."[0-9]+ {yylval.floatVal = atof(yytext); return REAL;}
-".+"       {yylval.stringVal = strdup(yytext);return STR;}
-"\n"            {return DONE;}
-.               {printf("Error: invlaid lexeme '%s'.\n", yytext); return 0;}
+"if"                                                    {return IF;}
+"procedure"												{return PROCEDURE ;}
+"is"                                                    {return IS;}
+"end "{letra}+                                          {return END ;}
+
+
+{digito}+                                               {yylval.intVal = atoi(yytext); return ENT;}
+{digito}+"."{digito}+                                   {yylval.floatVal = atof(yytext); return REAL;}
+{letra}({letra}|{digito}|"_")*                          {yylval.stringVal = strdup(yytext);return ID;}
+"\n"                                                    {numLinea=yylineno; return SALTO;}
+.                                                       {printf("Error: invlaid lexeme '%s'.\n", yytext); return 0;}
 
 %%
 

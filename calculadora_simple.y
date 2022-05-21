@@ -27,15 +27,18 @@ char* result3= "";
 }
 
 /* declare tokens (default is typeless) */
+%token PROCEDURE IS END
+
 %token <floatVal> REAL
 %token <intVal> ENT
+%token <stringVal> ID
 %token PLUS
 %token MINUS
 %token DIVIDE
 %token MULTIPLY
 %token LEFT
 %token RIGHT
-%token DONE
+%token SALTO
 
 %token LESSEROREQUALSTHAN
 %token GREATEROREQUALSTHAN
@@ -51,32 +54,29 @@ char* result3= "";
 %token TRUE
 %token FALSE
 
-
 %left PLUS MINUS
 %left MULTIPLY DIVIDE
 
-/* declare non-terminals */
-%type <st> stmt expr term factor expr2 term2 factor2 boolean_var boolean_op bool
 
 /* give us more detailed errors */
 %error-verbose
 
 %start command
 %%
-command: stmt DONE command
-    | stmt
 
-/* one expression only followed by a new line */
+command: PROCEDURE ID IS SALTO END
+;
+
+/* sentencia: stmt SALTO sentencia
+    | stmt {printf("Compilacion finalizada\n");}
+;
 stmt: expr {result = $1.entero; }
     | expr2 {result2 = $1.real; }
-    | bool {result3 = $1.string; }
 
-/* an expression uses + or - or neither */
 expr: expr PLUS term {$$.entero = $1.entero + $3.entero; printf( "ENTERO %ld\n", $$.entero);}
     | expr MINUS term {$$.entero = $1.entero - $3.entero;}
     | term {$$.entero = $1.entero;}
 
-/* an expression uses * or / or neither */
 term: term MULTIPLY factor {$$.entero = $1.entero * $3.entero;}
     | term DIVIDE factor {$$.entero = $1.entero / $3.entero;}
     | factor {$$.entero = $1.entero;}
@@ -85,21 +85,19 @@ factor: ENT {$$.entero = $1;}
       | LEFT expr RIGHT {$$.entero = $2.entero;}
       | MINUS ENT {$$.entero = -$2; }
 
-/* an expression uses + or - or neither */
 expr2: expr2 PLUS term2 {$$.real = $1.real + $3.real;printf( "REAL %lf\n", $$.real);}
     | expr2 MINUS term2 {$$.real = $1.real - $3.real;}
     | term2 {$$.real = $1.real;}
 
-/* an expression uses * or / or neither */
 term2: term2 MULTIPLY factor2 {$$.real = $1.real * $3.real;}
     | term2 DIVIDE factor2 {$$.real = $1.real / $3.real;}
     | factor2 {$$.real = $1.real;}
 
 factor2: REAL {$$.real = $1;}
       | LEFT expr2 RIGHT {$$.real = $2.real;}
-      | MINUS REAL {$$.real = -$2; }
+      | MINUS REAL {$$.real = -$2; } */
 
-boolean_op: EQUALS {$$.string = "=";}
+/* boolean_op: EQUALS {$$.string = "=";}
 	    | GREATERTHAN {$$.string=">";}
     	| LESSERTHAN {$$.string= "<";}
 	    | GREATEROREQUALSTHAN {$$.string=">=";}
@@ -112,10 +110,12 @@ boolean_var: TRUE {$$.string="True\n";}
     	| FALSE {$$.string="False\n"; }
 ;
 
-bool:expr boolean_op expr2 {printf("Operacion booleana variables\n");}
-      | boolean_var boolean_op boolean_var {$$.string="Operacion booleana true/false \n";}
+bool:expr boolean_op expr {printf("Operacion booleana variables\n");}
+      | expr2 boolean_op expr2 {printf("Operacion booleana variables\n");}
+      | expr boolean_op expr2 {printf("Operacion booleana variables\n");}
+      | expr2 boolean_op expr {printf("Operacion booleana variables\n");}
 
-;
+; */
 
 /* ifElse:  IF LEFT condition RIGHT THEN statment ELSE statment SEMI {printf("Accepted If/else\n");}
 		|	IF LEFT condition RIGHT THEN statment SEMI {printf("Accepted If\n");}
@@ -139,7 +139,7 @@ int yywrap( ) {
 }
 
 void yyerror(const char* str) {
-  fprintf(stderr, "Compiler error: '%s'.\n", str);
+  fprintf(stderr, "Error al compilar: '%s'.\n", str);
 }
 
 /* int main( ) {
