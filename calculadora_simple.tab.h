@@ -40,26 +40,35 @@
    enum yytokentype {
      REAL = 258,
      ENT = 259,
-     PLUS = 260,
-     MINUS = 261,
-     DIVIDE = 262,
-     MULTIPLY = 263,
-     LEFT = 264,
-     RIGHT = 265,
-     DONE = 266,
-     LESSEROREQUALSTHAN = 267,
-     GREATEROREQUALSTHAN = 268,
-     DIFFERENTTHAN = 269,
-     LESSERTHAN = 270,
-     GREATERTHAN = 271,
-     EQUALS = 272,
-     THEN = 273,
-     IF = 274,
-     ELSE = 275,
-     SEMI = 276,
-     STR = 277,
-     TRUE = 278,
-     FALSE = 279
+     STR = 260,
+     INTEGER = 261,
+     FLOAT = 262,
+     STRING = 263,
+     PLUS = 264,
+     MINUS = 265,
+     DIVIDE = 266,
+     MULTIPLY = 267,
+     LEFT = 268,
+     RIGHT = 269,
+     DONE = 270,
+     LESSEROREQUALSTHAN = 271,
+     GREATEROREQUALSTHAN = 272,
+     DIFFERENTTHAN = 273,
+     LESSERTHAN = 274,
+     GREATERTHAN = 275,
+     EQUALS = 276,
+     THEN = 277,
+     IS = 278,
+     IF = 279,
+     ELSE = 280,
+     SEMI = 281,
+     TRUE = 282,
+     FALSE = 283,
+     END = 284,
+     PROCEDURE = 285,
+     ID = 286,
+     POINTS = 287,
+     ASSIGN = 288
    };
 #endif
 
@@ -70,7 +79,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1685 of yacc.c  */
-#line 18 "calculadora_simple.y"
+#line 17 "calculadora_simple.y"
 
   int intVal;
   float floatVal;
@@ -79,12 +88,13 @@ typedef union YYSTYPE
     float real;
     int entero;
     char* string;
+    char* type;
   }st;
 
 
 
 /* Line 1685 of yacc.c  */
-#line 88 "calculadora_simple.tab.h"
+#line 98 "calculadora_simple.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

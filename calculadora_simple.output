@@ -1,678 +1,462 @@
 Terminals unused in grammar
 
+   REAL
+   STR
+   LESSEROREQUALSTHAN
+   GREATEROREQUALSTHAN
+   DIFFERENTTHAN
+   LESSERTHAN
+   GREATERTHAN
+   EQUALS
    THEN
    IF
    ELSE
-   SEMI
-   STR
+   TRUE
+   FALSE
 
 
 Grammar
 
     0 $accept: command $end
 
-    1 command: stmt DONE command
-    2        | stmt
+    1 command: inicio DONE declaracionGroup DONE fin
 
-    3 stmt: expr
-    4     | expr2
-    5     | bool
+    2 inicio: PROCEDURE ID IS
 
-    6 expr: expr PLUS term
-    7     | expr MINUS term
-    8     | term
+    3 fin: END
 
-    9 term: term MULTIPLY factor
-   10     | term DIVIDE factor
-   11     | factor
+    4 declaracionGroup: declaracionGroup DONE declaracion
+    5                 | declaracion
 
-   12 factor: ENT
-   13       | LEFT expr RIGHT
-   14       | MINUS ENT
+    6 declaracion: ID POINTS type ASSIGN expr SEMI
+    7            | ID POINTS type SEMI
 
-   15 expr2: expr2 PLUS term2
-   16      | expr2 MINUS term2
-   17      | term2
+    8 type: INTEGER
+    9     | FLOAT
+   10     | STRING
 
-   18 term2: term2 MULTIPLY factor2
-   19      | term2 DIVIDE factor2
-   20      | factor2
+   11 expr: expr PLUS term
+   12     | expr MINUS term
+   13     | term
 
-   21 factor2: REAL
-   22        | LEFT expr2 RIGHT
-   23        | MINUS REAL
+   14 term: term MULTIPLY factor
+   15     | term DIVIDE factor
+   16     | factor
 
-   24 boolean_op: EQUALS
-   25           | GREATERTHAN
-   26           | LESSERTHAN
-   27           | GREATEROREQUALSTHAN
-   28           | LESSEROREQUALSTHAN
-   29           | DIFFERENTTHAN
-
-   30 boolean_var: TRUE
-   31            | FALSE
-
-   32 bool: expr boolean_op expr2
-   33     | boolean_var boolean_op boolean_var
+   17 factor: ENT
+   18       | LEFT expr RIGHT
+   19       | MINUS ENT
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-REAL (258) 21 23
-ENT (259) 12 14
-PLUS (260) 6 15
-MINUS (261) 7 14 16 23
-DIVIDE (262) 10 19
-MULTIPLY (263) 9 18
-LEFT (264) 13 22
-RIGHT (265) 13 22
-DONE (266) 1
-LESSEROREQUALSTHAN (267) 28
-GREATEROREQUALSTHAN (268) 27
-DIFFERENTTHAN (269) 29
-LESSERTHAN (270) 26
-GREATERTHAN (271) 25
-EQUALS (272) 24
-THEN (273)
-IF (274)
-ELSE (275)
-SEMI (276)
-STR (277)
-TRUE (278) 30
-FALSE (279) 31
+REAL (258)
+ENT (259) 17 19
+STR (260)
+INTEGER (261) 8
+FLOAT (262) 9
+STRING (263) 10
+PLUS (264) 11
+MINUS (265) 12 19
+DIVIDE (266) 15
+MULTIPLY (267) 14
+LEFT (268) 18
+RIGHT (269) 18
+DONE (270) 1 4
+LESSEROREQUALSTHAN (271)
+GREATEROREQUALSTHAN (272)
+DIFFERENTTHAN (273)
+LESSERTHAN (274)
+GREATERTHAN (275)
+EQUALS (276)
+THEN (277)
+IS (278) 2
+IF (279)
+ELSE (280)
+SEMI (281) 6 7
+TRUE (282)
+FALSE (283)
+END (284) 3
+PROCEDURE (285) 2
+ID (286) 2 6 7
+POINTS (287) 6 7
+ASSIGN (288) 6
 
 
 Nonterminals, with rules where they appear
 
-$accept (25)
+$accept (34)
     on left: 0
-command (26)
-    on left: 1 2, on right: 0 1
-stmt (27)
-    on left: 3 4 5, on right: 1 2
-expr (28)
-    on left: 6 7 8, on right: 3 6 7 13 32
-term (29)
-    on left: 9 10 11, on right: 6 7 8 9 10
-factor (30)
-    on left: 12 13 14, on right: 9 10 11
-expr2 (31)
-    on left: 15 16 17, on right: 4 15 16 22 32
-term2 (32)
-    on left: 18 19 20, on right: 15 16 17 18 19
-factor2 (33)
-    on left: 21 22 23, on right: 18 19 20
-boolean_op (34)
-    on left: 24 25 26 27 28 29, on right: 32 33
-boolean_var (35)
-    on left: 30 31, on right: 33
-bool (36)
-    on left: 32 33, on right: 5
+command (35)
+    on left: 1, on right: 0
+inicio (36)
+    on left: 2, on right: 1
+fin (37)
+    on left: 3, on right: 1
+declaracionGroup (38)
+    on left: 4 5, on right: 1 4
+declaracion (39)
+    on left: 6 7, on right: 4 5
+type (40)
+    on left: 8 9 10, on right: 6 7
+expr (41)
+    on left: 11 12 13, on right: 6 11 12 18
+term (42)
+    on left: 14 15 16, on right: 11 12 13 14 15
+factor (43)
+    on left: 17 18 19, on right: 14 15 16
 
 
 state 0
 
     0 $accept: . command $end
 
-    REAL   shift, and go to state 1
-    ENT    shift, and go to state 2
-    MINUS  shift, and go to state 3
-    LEFT   shift, and go to state 4
-    TRUE   shift, and go to state 5
-    FALSE  shift, and go to state 6
+    PROCEDURE  shift, and go to state 1
 
-    command      go to state 7
-    stmt         go to state 8
-    expr         go to state 9
-    term         go to state 10
-    factor       go to state 11
-    expr2        go to state 12
-    term2        go to state 13
-    factor2      go to state 14
-    boolean_var  go to state 15
-    bool         go to state 16
+    command  go to state 2
+    inicio   go to state 3
 
 
 state 1
 
-   21 factor2: REAL .
+    2 inicio: PROCEDURE . ID IS
 
-    $default  reduce using rule 21 (factor2)
+    ID  shift, and go to state 4
 
 
 state 2
 
-   12 factor: ENT .
+    0 $accept: command . $end
 
-    $default  reduce using rule 12 (factor)
+    $end  shift, and go to state 5
 
 
 state 3
 
-   14 factor: MINUS . ENT
-   23 factor2: MINUS . REAL
+    1 command: inicio . DONE declaracionGroup DONE fin
 
-    REAL  shift, and go to state 17
-    ENT   shift, and go to state 18
+    DONE  shift, and go to state 6
 
 
 state 4
 
-   13 factor: LEFT . expr RIGHT
-   22 factor2: LEFT . expr2 RIGHT
+    2 inicio: PROCEDURE ID . IS
 
-    REAL   shift, and go to state 1
-    ENT    shift, and go to state 2
-    MINUS  shift, and go to state 3
-    LEFT   shift, and go to state 4
-
-    expr     go to state 19
-    term     go to state 10
-    factor   go to state 11
-    expr2    go to state 20
-    term2    go to state 13
-    factor2  go to state 14
+    IS  shift, and go to state 7
 
 
 state 5
-
-   30 boolean_var: TRUE .
-
-    $default  reduce using rule 30 (boolean_var)
-
-
-state 6
-
-   31 boolean_var: FALSE .
-
-    $default  reduce using rule 31 (boolean_var)
-
-
-state 7
-
-    0 $accept: command . $end
-
-    $end  shift, and go to state 21
-
-
-state 8
-
-    1 command: stmt . DONE command
-    2        | stmt .
-
-    DONE  shift, and go to state 22
-
-    $default  reduce using rule 2 (command)
-
-
-state 9
-
-    3 stmt: expr .
-    6 expr: expr . PLUS term
-    7     | expr . MINUS term
-   32 bool: expr . boolean_op expr2
-
-    PLUS                 shift, and go to state 23
-    MINUS                shift, and go to state 24
-    LESSEROREQUALSTHAN   shift, and go to state 25
-    GREATEROREQUALSTHAN  shift, and go to state 26
-    DIFFERENTTHAN        shift, and go to state 27
-    LESSERTHAN           shift, and go to state 28
-    GREATERTHAN          shift, and go to state 29
-    EQUALS               shift, and go to state 30
-
-    $default  reduce using rule 3 (stmt)
-
-    boolean_op  go to state 31
-
-
-state 10
-
-    8 expr: term .
-    9 term: term . MULTIPLY factor
-   10     | term . DIVIDE factor
-
-    DIVIDE    shift, and go to state 32
-    MULTIPLY  shift, and go to state 33
-
-    $default  reduce using rule 8 (expr)
-
-
-state 11
-
-   11 term: factor .
-
-    $default  reduce using rule 11 (term)
-
-
-state 12
-
-    4 stmt: expr2 .
-   15 expr2: expr2 . PLUS term2
-   16      | expr2 . MINUS term2
-
-    PLUS   shift, and go to state 34
-    MINUS  shift, and go to state 35
-
-    $default  reduce using rule 4 (stmt)
-
-
-state 13
-
-   17 expr2: term2 .
-   18 term2: term2 . MULTIPLY factor2
-   19      | term2 . DIVIDE factor2
-
-    DIVIDE    shift, and go to state 36
-    MULTIPLY  shift, and go to state 37
-
-    $default  reduce using rule 17 (expr2)
-
-
-state 14
-
-   20 term2: factor2 .
-
-    $default  reduce using rule 20 (term2)
-
-
-state 15
-
-   33 bool: boolean_var . boolean_op boolean_var
-
-    LESSEROREQUALSTHAN   shift, and go to state 25
-    GREATEROREQUALSTHAN  shift, and go to state 26
-    DIFFERENTTHAN        shift, and go to state 27
-    LESSERTHAN           shift, and go to state 28
-    GREATERTHAN          shift, and go to state 29
-    EQUALS               shift, and go to state 30
-
-    boolean_op  go to state 38
-
-
-state 16
-
-    5 stmt: bool .
-
-    $default  reduce using rule 5 (stmt)
-
-
-state 17
-
-   23 factor2: MINUS REAL .
-
-    $default  reduce using rule 23 (factor2)
-
-
-state 18
-
-   14 factor: MINUS ENT .
-
-    $default  reduce using rule 14 (factor)
-
-
-state 19
-
-    6 expr: expr . PLUS term
-    7     | expr . MINUS term
-   13 factor: LEFT expr . RIGHT
-
-    PLUS   shift, and go to state 23
-    MINUS  shift, and go to state 24
-    RIGHT  shift, and go to state 39
-
-
-state 20
-
-   15 expr2: expr2 . PLUS term2
-   16      | expr2 . MINUS term2
-   22 factor2: LEFT expr2 . RIGHT
-
-    PLUS   shift, and go to state 34
-    MINUS  shift, and go to state 35
-    RIGHT  shift, and go to state 40
-
-
-state 21
 
     0 $accept: command $end .
 
     $default  accept
 
 
-state 22
+state 6
 
-    1 command: stmt DONE . command
+    1 command: inicio DONE . declaracionGroup DONE fin
 
-    REAL   shift, and go to state 1
-    ENT    shift, and go to state 2
-    MINUS  shift, and go to state 3
-    LEFT   shift, and go to state 4
-    TRUE   shift, and go to state 5
-    FALSE  shift, and go to state 6
+    ID  shift, and go to state 8
 
-    command      go to state 41
-    stmt         go to state 8
-    expr         go to state 9
-    term         go to state 10
-    factor       go to state 11
-    expr2        go to state 12
-    term2        go to state 13
-    factor2      go to state 14
-    boolean_var  go to state 15
-    bool         go to state 16
+    declaracionGroup  go to state 9
+    declaracion       go to state 10
 
 
-state 23
+state 7
 
-    6 expr: expr PLUS . term
+    2 inicio: PROCEDURE ID IS .
 
-    ENT    shift, and go to state 2
-    MINUS  shift, and go to state 42
-    LEFT   shift, and go to state 43
+    $default  reduce using rule 2 (inicio)
 
-    term    go to state 44
-    factor  go to state 11
 
+state 8
 
-state 24
+    6 declaracion: ID . POINTS type ASSIGN expr SEMI
+    7            | ID . POINTS type SEMI
 
-    7 expr: expr MINUS . term
+    POINTS  shift, and go to state 11
 
-    ENT    shift, and go to state 2
-    MINUS  shift, and go to state 42
-    LEFT   shift, and go to state 43
 
-    term    go to state 45
-    factor  go to state 11
+state 9
 
+    1 command: inicio DONE declaracionGroup . DONE fin
+    4 declaracionGroup: declaracionGroup . DONE declaracion
 
-state 25
+    DONE  shift, and go to state 12
 
-   28 boolean_op: LESSEROREQUALSTHAN .
 
-    $default  reduce using rule 28 (boolean_op)
+state 10
 
+    5 declaracionGroup: declaracion .
 
-state 26
+    $default  reduce using rule 5 (declaracionGroup)
 
-   27 boolean_op: GREATEROREQUALSTHAN .
 
-    $default  reduce using rule 27 (boolean_op)
+state 11
 
+    6 declaracion: ID POINTS . type ASSIGN expr SEMI
+    7            | ID POINTS . type SEMI
 
-state 27
+    INTEGER  shift, and go to state 13
+    FLOAT    shift, and go to state 14
+    STRING   shift, and go to state 15
 
-   29 boolean_op: DIFFERENTTHAN .
+    type  go to state 16
 
-    $default  reduce using rule 29 (boolean_op)
 
+state 12
 
-state 28
+    1 command: inicio DONE declaracionGroup DONE . fin
+    4 declaracionGroup: declaracionGroup DONE . declaracion
 
-   26 boolean_op: LESSERTHAN .
+    END  shift, and go to state 17
+    ID   shift, and go to state 8
 
-    $default  reduce using rule 26 (boolean_op)
+    fin          go to state 18
+    declaracion  go to state 19
 
 
-state 29
+state 13
 
-   25 boolean_op: GREATERTHAN .
+    8 type: INTEGER .
 
-    $default  reduce using rule 25 (boolean_op)
+    $default  reduce using rule 8 (type)
 
 
-state 30
+state 14
 
-   24 boolean_op: EQUALS .
+    9 type: FLOAT .
 
-    $default  reduce using rule 24 (boolean_op)
+    $default  reduce using rule 9 (type)
 
 
-state 31
+state 15
 
-   32 bool: expr boolean_op . expr2
+   10 type: STRING .
 
-    REAL   shift, and go to state 1
-    MINUS  shift, and go to state 46
-    LEFT   shift, and go to state 47
+    $default  reduce using rule 10 (type)
 
-    expr2    go to state 48
-    term2    go to state 13
-    factor2  go to state 14
 
+state 16
 
-state 32
+    6 declaracion: ID POINTS type . ASSIGN expr SEMI
+    7            | ID POINTS type . SEMI
 
-   10 term: term DIVIDE . factor
+    SEMI    shift, and go to state 20
+    ASSIGN  shift, and go to state 21
 
-    ENT    shift, and go to state 2
-    MINUS  shift, and go to state 42
-    LEFT   shift, and go to state 43
 
-    factor  go to state 49
+state 17
 
+    3 fin: END .
 
-state 33
+    $default  reduce using rule 3 (fin)
 
-    9 term: term MULTIPLY . factor
 
-    ENT    shift, and go to state 2
-    MINUS  shift, and go to state 42
-    LEFT   shift, and go to state 43
+state 18
 
-    factor  go to state 50
-
-
-state 34
-
-   15 expr2: expr2 PLUS . term2
-
-    REAL   shift, and go to state 1
-    MINUS  shift, and go to state 46
-    LEFT   shift, and go to state 47
-
-    term2    go to state 51
-    factor2  go to state 14
-
-
-state 35
-
-   16 expr2: expr2 MINUS . term2
-
-    REAL   shift, and go to state 1
-    MINUS  shift, and go to state 46
-    LEFT   shift, and go to state 47
-
-    term2    go to state 52
-    factor2  go to state 14
-
-
-state 36
-
-   19 term2: term2 DIVIDE . factor2
-
-    REAL   shift, and go to state 1
-    MINUS  shift, and go to state 46
-    LEFT   shift, and go to state 47
-
-    factor2  go to state 53
-
-
-state 37
-
-   18 term2: term2 MULTIPLY . factor2
-
-    REAL   shift, and go to state 1
-    MINUS  shift, and go to state 46
-    LEFT   shift, and go to state 47
-
-    factor2  go to state 54
-
-
-state 38
-
-   33 bool: boolean_var boolean_op . boolean_var
-
-    TRUE   shift, and go to state 5
-    FALSE  shift, and go to state 6
-
-    boolean_var  go to state 55
-
-
-state 39
-
-   13 factor: LEFT expr RIGHT .
-
-    $default  reduce using rule 13 (factor)
-
-
-state 40
-
-   22 factor2: LEFT expr2 RIGHT .
-
-    $default  reduce using rule 22 (factor2)
-
-
-state 41
-
-    1 command: stmt DONE command .
+    1 command: inicio DONE declaracionGroup DONE fin .
 
     $default  reduce using rule 1 (command)
 
 
-state 42
+state 19
 
-   14 factor: MINUS . ENT
+    4 declaracionGroup: declaracionGroup DONE declaracion .
 
-    ENT  shift, and go to state 18
-
-
-state 43
-
-   13 factor: LEFT . expr RIGHT
-
-    ENT    shift, and go to state 2
-    MINUS  shift, and go to state 42
-    LEFT   shift, and go to state 43
-
-    expr    go to state 19
-    term    go to state 10
-    factor  go to state 11
+    $default  reduce using rule 4 (declaracionGroup)
 
 
-state 44
+state 20
 
-    6 expr: expr PLUS term .
-    9 term: term . MULTIPLY factor
-   10     | term . DIVIDE factor
+    7 declaracion: ID POINTS type SEMI .
 
-    DIVIDE    shift, and go to state 32
-    MULTIPLY  shift, and go to state 33
-
-    $default  reduce using rule 6 (expr)
+    $default  reduce using rule 7 (declaracion)
 
 
-state 45
+state 21
 
-    7 expr: expr MINUS term .
-    9 term: term . MULTIPLY factor
-   10     | term . DIVIDE factor
+    6 declaracion: ID POINTS type ASSIGN . expr SEMI
 
-    DIVIDE    shift, and go to state 32
-    MULTIPLY  shift, and go to state 33
+    ENT    shift, and go to state 22
+    MINUS  shift, and go to state 23
+    LEFT   shift, and go to state 24
 
-    $default  reduce using rule 7 (expr)
-
-
-state 46
-
-   23 factor2: MINUS . REAL
-
-    REAL  shift, and go to state 17
+    expr    go to state 25
+    term    go to state 26
+    factor  go to state 27
 
 
-state 47
+state 22
 
-   22 factor2: LEFT . expr2 RIGHT
+   17 factor: ENT .
 
-    REAL   shift, and go to state 1
-    MINUS  shift, and go to state 46
-    LEFT   shift, and go to state 47
-
-    expr2    go to state 20
-    term2    go to state 13
-    factor2  go to state 14
+    $default  reduce using rule 17 (factor)
 
 
-state 48
+state 23
 
-   15 expr2: expr2 . PLUS term2
-   16      | expr2 . MINUS term2
-   32 bool: expr boolean_op expr2 .
+   19 factor: MINUS . ENT
 
-    PLUS   shift, and go to state 34
-    MINUS  shift, and go to state 35
-
-    $default  reduce using rule 32 (bool)
+    ENT  shift, and go to state 28
 
 
-state 49
+state 24
 
-   10 term: term DIVIDE factor .
+   18 factor: LEFT . expr RIGHT
 
-    $default  reduce using rule 10 (term)
+    ENT    shift, and go to state 22
+    MINUS  shift, and go to state 23
+    LEFT   shift, and go to state 24
 
-
-state 50
-
-    9 term: term MULTIPLY factor .
-
-    $default  reduce using rule 9 (term)
-
-
-state 51
-
-   15 expr2: expr2 PLUS term2 .
-   18 term2: term2 . MULTIPLY factor2
-   19      | term2 . DIVIDE factor2
-
-    DIVIDE    shift, and go to state 36
-    MULTIPLY  shift, and go to state 37
-
-    $default  reduce using rule 15 (expr2)
+    expr    go to state 29
+    term    go to state 26
+    factor  go to state 27
 
 
-state 52
+state 25
 
-   16 expr2: expr2 MINUS term2 .
-   18 term2: term2 . MULTIPLY factor2
-   19      | term2 . DIVIDE factor2
+    6 declaracion: ID POINTS type ASSIGN expr . SEMI
+   11 expr: expr . PLUS term
+   12     | expr . MINUS term
 
-    DIVIDE    shift, and go to state 36
-    MULTIPLY  shift, and go to state 37
-
-    $default  reduce using rule 16 (expr2)
-
-
-state 53
-
-   19 term2: term2 DIVIDE factor2 .
-
-    $default  reduce using rule 19 (term2)
+    PLUS   shift, and go to state 30
+    MINUS  shift, and go to state 31
+    SEMI   shift, and go to state 32
 
 
-state 54
+state 26
 
-   18 term2: term2 MULTIPLY factor2 .
+   13 expr: term .
+   14 term: term . MULTIPLY factor
+   15     | term . DIVIDE factor
 
-    $default  reduce using rule 18 (term2)
+    DIVIDE    shift, and go to state 33
+    MULTIPLY  shift, and go to state 34
+
+    $default  reduce using rule 13 (expr)
 
 
-state 55
+state 27
 
-   33 bool: boolean_var boolean_op boolean_var .
+   16 term: factor .
 
-    $default  reduce using rule 33 (bool)
+    $default  reduce using rule 16 (term)
+
+
+state 28
+
+   19 factor: MINUS ENT .
+
+    $default  reduce using rule 19 (factor)
+
+
+state 29
+
+   11 expr: expr . PLUS term
+   12     | expr . MINUS term
+   18 factor: LEFT expr . RIGHT
+
+    PLUS   shift, and go to state 30
+    MINUS  shift, and go to state 31
+    RIGHT  shift, and go to state 35
+
+
+state 30
+
+   11 expr: expr PLUS . term
+
+    ENT    shift, and go to state 22
+    MINUS  shift, and go to state 23
+    LEFT   shift, and go to state 24
+
+    term    go to state 36
+    factor  go to state 27
+
+
+state 31
+
+   12 expr: expr MINUS . term
+
+    ENT    shift, and go to state 22
+    MINUS  shift, and go to state 23
+    LEFT   shift, and go to state 24
+
+    term    go to state 37
+    factor  go to state 27
+
+
+state 32
+
+    6 declaracion: ID POINTS type ASSIGN expr SEMI .
+
+    $default  reduce using rule 6 (declaracion)
+
+
+state 33
+
+   15 term: term DIVIDE . factor
+
+    ENT    shift, and go to state 22
+    MINUS  shift, and go to state 23
+    LEFT   shift, and go to state 24
+
+    factor  go to state 38
+
+
+state 34
+
+   14 term: term MULTIPLY . factor
+
+    ENT    shift, and go to state 22
+    MINUS  shift, and go to state 23
+    LEFT   shift, and go to state 24
+
+    factor  go to state 39
+
+
+state 35
+
+   18 factor: LEFT expr RIGHT .
+
+    $default  reduce using rule 18 (factor)
+
+
+state 36
+
+   11 expr: expr PLUS term .
+   14 term: term . MULTIPLY factor
+   15     | term . DIVIDE factor
+
+    DIVIDE    shift, and go to state 33
+    MULTIPLY  shift, and go to state 34
+
+    $default  reduce using rule 11 (expr)
+
+
+state 37
+
+   12 expr: expr MINUS term .
+   14 term: term . MULTIPLY factor
+   15     | term . DIVIDE factor
+
+    DIVIDE    shift, and go to state 33
+    MULTIPLY  shift, and go to state 34
+
+    $default  reduce using rule 12 (expr)
+
+
+state 38
+
+   15 term: term DIVIDE factor .
+
+    $default  reduce using rule 15 (term)
+
+
+state 39
+
+   14 term: term MULTIPLY factor .
+
+    $default  reduce using rule 14 (term)
