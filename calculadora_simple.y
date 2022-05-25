@@ -6,11 +6,13 @@
 void yyerror(const char* str);
 extern FILE *yyin;
 extern FILE *yyout;
+int yylex();
 
 /* the result variable */
 float result2 = 0;
 int result = 0;
 char* result3= "";
+int linea = 1;
 %}
 
 /* declare type possibilities of symbols */
@@ -61,7 +63,8 @@ char* result3= "";
 %token ID
 %token POINTS
 %token ASSIGN
-
+%token BEEGIN
+%token COMMENT
 
 %left PLUS MINUS
 %left MULTIPLY DIVIDE
@@ -74,24 +77,37 @@ char* result3= "";
 
 %start command
 %%
-command: inicio DONE declaracionGroup DONE fin{printf( "FINAL");}
-;
-inicio: PROCEDURE ID IS {printf( "inicio");}
-;
-fin: END{printf( "final");}
+
+command: inicio DONE declaracionGroup DONE cuerpo fin{printf("Compilacion finalizada\n");}
 ;
 
-declaracionGroup : declaracionGroup DONE declaracion {printf( "declaracion 1");}
-	| declaracion {printf( "declaracion 2");}
+inicio: PROCEDURE ID IS {printf("Inicio del procedimiento\n");}
 ;
 
-declaracion : ID POINTS type ASSIGN expr SEMI {printf( "d1");}
-  	|ID POINTS type SEMI {printf("d2");}
+fin: END{printf("Final del procedimiento\n");}
+;
+
+declaracionGroup : declaracionGroup DONE declaracion  {printf("Declaracion\n");}
+	| declaracion  {printf("Declaracion\n");}
+;
+
+declaracion : ID POINTS type ASSIGN expr SEMI
+  	|ID POINTS type SEMI
 ;
 
 type: INTEGER 
     |FLOAT 
     |STRING
+;
+
+cuerpo: BEEGIN DONE sentencia DONE {printf("Begin\n");}
+;
+
+sentencia: expresion
+    | sentencia DONE expresion
+;
+
+expresion: ID ASSIGN expr SEMI {printf("Asignacion\n");}
 ;
 /*
 stmt: expr {result = $1.entero; }

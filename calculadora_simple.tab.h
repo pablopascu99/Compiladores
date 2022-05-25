@@ -68,7 +68,9 @@
      PROCEDURE = 285,
      ID = 286,
      POINTS = 287,
-     ASSIGN = 288
+     ASSIGN = 288,
+     BEEGIN = 289,
+     COMMENT = 290
    };
 #endif
 
@@ -79,7 +81,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1685 of yacc.c  */
-#line 17 "calculadora_simple.y"
+#line 19 "calculadora_simple.y"
 
   int intVal;
   float floatVal;
@@ -94,7 +96,7 @@ typedef union YYSTYPE
 
 
 /* Line 1685 of yacc.c  */
-#line 98 "calculadora_simple.tab.h"
+#line 100 "calculadora_simple.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -1,3 +1,5 @@
 procedure Main is
 int1: Integer;
+begin
+int1:= 2+2;
 end
